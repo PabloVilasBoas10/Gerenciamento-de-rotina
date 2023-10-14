@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', function () {
       for (let i = 0; i < localStorage.length; i++) {
         const userKey = localStorage.key(i)
         const passwordKey = localStorage.getItem(userKey)
-        // console.log(userKey, passwordKey)
 
         if (userKey === inputNome.value.toUpperCase()) {
           alert('USUARIO JÁ EXISTENTE, CRIE OUTRO!');
@@ -27,6 +26,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
       }
       localStorage.setItem(inputNome.value.toUpperCase(), inputSenha.value.toUpperCase())
+      const ativaAnimaçao = document.querySelector('.tela-carregamento')
+      ativaAnimaçao.classList.add('ativo')
       setTimeout(() => {
         window.location.href = loginPage
         return
