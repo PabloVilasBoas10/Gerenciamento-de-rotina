@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const inputSenha = document.querySelector('.input-senha')
   const logar = document.querySelector('.btn-logar')
 
-  const loginPage = '../html/area-do-usuario.html'
+  const loginPage = '../../area-do-usuario.html'
 
   logar.addEventListener('click', (e) => {
     e.preventDefault()

@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
       localStorage.setItem(inputNome.value.toUpperCase(), inputSenha.value.toUpperCase())
       setTimeout(() => {
         window.location.href = loginPage
+        return
       }, 1000)
 
     }
