@@ -3,7 +3,8 @@ const btnTarefa = document.querySelector('.btn-criar')
 const ul = document.querySelector('.lista')
 const listaTarefas = []
 const usuario = localStorage.getItem('usuario')
-
+const sair = document.querySelector('.sair')
+const loginPage = '../../index.html'
 const h1 = document.querySelector('.h1-nome > span')
 h1.innerText = usuario
 
@@ -96,6 +97,10 @@ function criaContainerEdit() {
   return divContainer
 }
 
+function limpaInput() {
+  inputTarefa.value = ''
+  inputTarefa.focus()
+}
 
 
 // Eventos
@@ -171,7 +176,25 @@ document.addEventListener('click', (e) => {
   }
 })
 
-function limpaInput() {
-  inputTarefa.value = ''
-  inputTarefa.focus()
-}
+sair.addEventListener('click', () => {
+  localStorage.removeItem('usuario')
+  window.location.href = loginPage;
+
+})
+
+
+// Evento para reloads na pagina
+window.addEventListener('beforeunload', function (event) {
+  window.location.href = loginPage;
+
+  event.preventDefault()
+  localStorage.removeItem('usuario')
+  history.pushState(null, null, loginPage);
+});
+
+history.pushState(null, null, loginPage);
+window.addEventListener('popstate', function () {
+  history.pushState(null, null, loginPage);
+});
+
+

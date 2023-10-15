@@ -25,7 +25,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
       }
-      localStorage.setItem(inputNome.value.toUpperCase(), inputSenha.value.toUpperCase())
+      let user = {
+        nome: inputNome.value.toUpperCase(),
+        senha: inputSenha.value.toUpperCase(),
+        tarefas: []
+      }
+      const userJson = JSON.stringify(user)
+      localStorage.setItem(user.nome, userJson)
       const ativaAnimaçao = document.querySelector('.tela-carregamento')
       ativaAnimaçao.classList.add('ativo')
       setTimeout(() => {

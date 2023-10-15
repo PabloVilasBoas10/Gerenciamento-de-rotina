@@ -161,16 +161,17 @@ input:focus {
   align-items: center;
 }
 
-.info-usuario a {
+.info-usuario button {
   padding: 5px 10px;
   border-radius: 4px;
   border: 2px solid #000000;
   color: #000000;
   text-decoration: none;
   transition: 0.2s;
+  cursor: pointer;
 }
 
-.info-usuario a:hover {
+.info-usuario button:hover {
   box-shadow: 2px 2px 1px 1px #000000;
 }
 
@@ -216,7 +217,7 @@ input:focus {
     font-size: 1rem;
   }
 
-  .info-usuario a {
+  .info-usuario button {
     top: 0;
     padding: 2px 6px;
   }

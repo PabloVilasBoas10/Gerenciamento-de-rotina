@@ -11,15 +11,18 @@ document.addEventListener('DOMContentLoaded', function () {
     // Faz um laço pegando todos os usuarios
     for (let i = 0; i < localStorage.length; i++) {
       const userKey = localStorage.key(i)
-      const passwordKey = localStorage.getItem(userKey)
+      const informationsKey = localStorage.getItem(userKey)
+      const informationsKeyJson = JSON.parse(informationsKey)
+
+
 
       // Verifica se usuário e senha existem e estão corretas
-      if (userKey == inputNome.value.toUpperCase() && passwordKey == inputSenha.value.toUpperCase()) {
+      if (userKey == inputNome.value.toUpperCase() && informationsKeyJson.senha == inputSenha.value.toUpperCase()) {
         const ativaAnimaçao = document.querySelector('.tela-carregamento');
         ativaAnimaçao.classList.add('ativo');
+
         usuario = userKey;
         console.log("Usuário definido:", usuario);
-
         localStorage.setItem('usuario', usuario);
 
         setTimeout(() => {
@@ -33,6 +36,13 @@ document.addEventListener('DOMContentLoaded', function () {
     alert('Usuário ou Senha Incorretas!')
 
   })
+
+  // Evento de reload
+  history.pushState(null, null, document.URL);
+  window.addEventListener('popstate', function () {
+    history.pushState(null, null, document.URL);
+  });
+
 
 })
 
