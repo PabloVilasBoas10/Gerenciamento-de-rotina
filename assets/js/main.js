@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const ativaAnimaçao = document.querySelector('.tela-carregamento');
         ativaAnimaçao.classList.add('ativo');
 
+        // COLOCAR ATIVO NO USUARIO LOGADO PARA SABER QM É QUE ESTÁ LOGADO.
         usuario = userKey;
         console.log("Usuário definido:", usuario);
         localStorage.setItem('usuario', usuario);
@@ -45,5 +46,3 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 })
-
-// export { usuario }

@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const inputSenha = document.querySelector('.input-senha')
   const inputConfirmarSenha = document.querySelector('.input-confirmar-senha')
   const criar = document.querySelector('.btn-criar-conta')
-
+  const ativaAnimaçao = document.querySelector('.tela-carregamento')
   const loginPage = '../../index.html'
 
   criar.addEventListener('click', (e) => {
@@ -28,12 +28,17 @@ document.addEventListener('DOMContentLoaded', function () {
       let user = {
         nome: inputNome.value.toUpperCase(),
         senha: inputSenha.value.toUpperCase(),
-        tarefas: []
+        tarefas: [{
+          nomeProjeto: '',
+          descricaoProjeto: '',
+        }],
+        ativo: false
       }
       const userJson = JSON.stringify(user)
       localStorage.setItem(user.nome, userJson)
-      const ativaAnimaçao = document.querySelector('.tela-carregamento')
+
       ativaAnimaçao.classList.add('ativo')
+
       setTimeout(() => {
         window.location.href = loginPage
         return
