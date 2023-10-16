@@ -82,7 +82,7 @@ function criaInputChecar() {
 
 function criaBtnEditar() {
   const btnEditar = document.createElement('button')
-  btnEditar.innerHTML = '&#9999'
+  btnEditar.innerHTML = '&#10000'
   btnEditar.classList.add('editar-tarefa')
   return btnEditar
 }
