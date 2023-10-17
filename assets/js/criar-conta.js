@@ -8,12 +8,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
   criar.addEventListener('click', (e) => {
     e.preventDefault()
+
+    // Checa se todos os campos existem e se estão completos
     if (inputNome.value && inputSenha.value && inputConfirmarSenha) {
       if (inputSenha.value != inputConfirmarSenha.value) {
         alert("AS SENHAS NÃO SE COINCIDEM!")
         return
       }
 
+      // Faz um laço checando se o usuário já existe, se existir não deixar criar uma conta
       for (let i = 0; i < localStorage.length; i++) {
         const userKey = localStorage.key(i)
         const passwordKey = localStorage.getItem(userKey)
@@ -25,20 +28,23 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
       }
+
+      // Objeto com as informações do usuário
       let user = {
         nome: inputNome.value.toUpperCase(),
         senha: inputSenha.value.toUpperCase(),
-        tarefas: [{
-          nomeProjeto: '',
-          descricaoProjeto: '',
-        }],
-        ativo: false
+        tarefas: [],
+        situacao: false
       }
+
+      // Transforma o usuário em JSON e envia para o localStorage
       const userJson = JSON.stringify(user)
       localStorage.setItem(user.nome, userJson)
 
       ativaAnimaçao.classList.add('ativo')
 
+      // Encaminha para a página de Login após 2 segundos
+      // OBS: Deixar os 2 segundos para melhor experiência do Usuário.
       setTimeout(() => {
         window.location.href = loginPage
         return

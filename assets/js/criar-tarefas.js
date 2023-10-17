@@ -1,26 +1,30 @@
 const inputTarefa = document.querySelector('.input-tarefa')
 const btnTarefa = document.querySelector('.btn-criar')
 const ul = document.querySelector('.lista')
-const listaTarefas = []
-const usuario = localStorage.getItem('usuario')
 const sair = document.querySelector('.sair')
 const loginPage = '../../index.html'
 const h1 = document.querySelector('.h1-nome > span')
-h1.innerText = usuario
 
-// Agora você pode usar a variável 'usuario' neste arquivo
-// console.log(usuario);
+
+// Faz um for pegando todas as tarefas do Usuário
+for (let i = 0; i < localStorage.length; i++) {
+  const userKey = localStorage.key(i)
+  const informationsKey = localStorage.getItem(userKey)
+  let informationsKeyJson = JSON.parse(informationsKey)
+  const tarefas = informationsKeyJson.tarefas
+
+  // Mapeia e retorna as tarefas
+  const nomeTarefas = tarefas.map((tarefa) => tarefa.nomeProjeto);
+}
+
+
 btnTarefa.addEventListener('click', () => {
   if (!inputTarefa.value || inputTarefa.value.trim() === '') {
     return
   }
 
-  if (listaTarefas.includes(inputTarefa.value)) {
-    alert('ESSA TAREFA JÁ EXISTE!')
-    return
-  }
-  listaTarefas.push(inputTarefa.value)
-  criaTarefa(listaTarefas[listaTarefas.length - 1])
+  salvaTarefasUsuario(inputTarefa.value)
+  criaTarefa(inputTarefa.value)
 
 })
 
@@ -29,7 +33,24 @@ function criaTarefa(txt) {
   const divContainer = criaContainer(txt)
   ul.appendChild(divContainer)
   limpaInput()
+}
 
+
+function salvaTarefasUsuario(txt) {
+  for (let i = 0; i < localStorage.length; i++) {
+    const tarefa = {
+      nomeProjeto: txt,
+      // descricaoProjeto: "1"
+    }
+    const userKey = localStorage.key(i)
+    const informationsKey = localStorage.getItem(userKey)
+    let informationsKeyJson = JSON.parse(informationsKey)
+    if (informationsKeyJson.situacao === true) {
+      informationsKeyJson.tarefas.push(tarefa)
+      informationsKeyJson = JSON.stringify(informationsKeyJson)
+      localStorage.setItem(userKey, informationsKeyJson);
+    }
+  }
 }
 
 
@@ -87,6 +108,8 @@ function criaBtnEditar() {
   return btnEditar
 }
 
+// Cria a página de editar tarefa
+// OBS: Deixar assim, senão a conflito de tarefas do usuário
 function criaContainerEdit() {
   const divContainer = `
   <h2>Editar Tarefa</h2>
@@ -103,8 +126,40 @@ function limpaInput() {
 }
 
 
-// Eventos
 
+// Pega o nome do Usuário logado e retorna o nome dele
+function pegaUsuario() {
+  for (let i = 0; i < localStorage.length; i++) {
+    const userKey = localStorage.key(i)
+    const informationsKey = localStorage.getItem(userKey)
+    let informationsKeyJson = JSON.parse(informationsKey)
+    if (informationsKeyJson.situacao === true) {
+      return userKey
+    }
+  }
+}
+
+// Adiciona o nome do usuário logado no título
+h1.textContent = pegaUsuario()
+
+
+
+// Pega o Usuário logado e altera ele para ativo
+function pegaUsuarioAtivo() {
+  for (let i = 0; i < localStorage.length; i++) {
+    const userKey = localStorage.key(i)
+    const informationsKey = localStorage.getItem(userKey)
+    let informationsKeyJson = JSON.parse(informationsKey)
+    informationsKeyJson.situacao = false
+    informationsKeyJson = JSON.stringify(informationsKeyJson)
+    localStorage.setItem(userKey, informationsKeyJson);
+  }
+
+}
+
+
+
+// Evento de keypress, nesse evento a tecla "enter" está sendo usada para criar tarefas
 document.addEventListener('keypress', (e) => {
   if (!inputTarefa.value || inputTarefa.value.trim() === '') {
     return
@@ -112,21 +167,18 @@ document.addEventListener('keypress', (e) => {
 
   if (e.keyCode === 13) {
 
-    if (listaTarefas.includes(inputTarefa.value)) {
-      alert('Essa Tarefa ja existe!')
-      return
-    }
 
-    listaTarefas.push(inputTarefa.value)
-    criaTarefa(listaTarefas[listaTarefas.length - 1])
-    console.log(listaTarefas)
-
+    salvaTarefasUsuario(inputTarefa.value)
+    criaTarefa(inputTarefa.value)
     limpaInput()
   }
 
 })
 
+// Evento de click no document
+
 document.addEventListener('click', (e) => {
+  // Verifica em qual elemento dá página está sendo clicado
   const el = e.target
 
   // Evento de excluir tarefa
@@ -167,6 +219,8 @@ document.addEventListener('click', (e) => {
       inputEditarTarefa.value = ''
 
     })
+
+    // Evento de fechar a janela de editar tarefa
     btnFecharJanela.addEventListener('click', () => {
       containerEditarTarefa.classList.remove('abrir')
       inputEditarTarefa.value = ''
@@ -176,25 +230,25 @@ document.addEventListener('click', (e) => {
   }
 })
 
+// Evento de deslogar usuário
 sair.addEventListener('click', () => {
-  localStorage.removeItem('usuario')
+  pegaUsuarioAtivo()
   window.location.href = loginPage;
 
 })
 
 
 // Evento para reloads na pagina
-window.addEventListener('beforeunload', function (event) {
-  window.location.href = loginPage;
+// window.addEventListener('beforeunload', function (event) {
+//   event.preventDefault()
+//   pegaUsuarioAtivo()
+//   window.location.href = loginPage;
+//   history.pushState(null, null, loginPage);
+// });
 
-  event.preventDefault()
-  localStorage.removeItem('usuario')
-  history.pushState(null, null, loginPage);
-});
-
-history.pushState(null, null, loginPage);
-window.addEventListener('popstate', function () {
-  history.pushState(null, null, loginPage);
-});
+// history.pushState(null, null, loginPage);
+// window.addEventListener('popstate', function () {
+//   history.pushState(null, null, loginPage);
+// });
 
 

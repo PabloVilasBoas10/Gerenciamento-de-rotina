@@ -8,23 +8,21 @@ document.addEventListener('DOMContentLoaded', function () {
   logar.addEventListener('click', (e) => {
     e.preventDefault()
 
-    // Faz um laço pegando todos os usuarios
+    // Faz um laço pegando todos os usuarios no localStorage
     for (let i = 0; i < localStorage.length; i++) {
       const userKey = localStorage.key(i)
       const informationsKey = localStorage.getItem(userKey)
-      const informationsKeyJson = JSON.parse(informationsKey)
-
-
+      let informationsKeyJson = JSON.parse(informationsKey)
 
       // Verifica se usuário e senha existem e estão corretas
       if (userKey == inputNome.value.toUpperCase() && informationsKeyJson.senha == inputSenha.value.toUpperCase()) {
         const ativaAnimaçao = document.querySelector('.tela-carregamento');
         ativaAnimaçao.classList.add('ativo');
 
-        // COLOCAR ATIVO NO USUARIO LOGADO PARA SABER QM É QUE ESTÁ LOGADO.
-        usuario = userKey;
-        console.log("Usuário definido:", usuario);
-        localStorage.setItem('usuario', usuario);
+        // Se o usuário logar, muda a situação para "true"
+        informationsKeyJson.situacao = true
+        informationsKeyJson = JSON.stringify(informationsKeyJson)
+        localStorage.setItem(userKey, informationsKeyJson);
 
         setTimeout(() => {
           window.location.href = loginPage;
