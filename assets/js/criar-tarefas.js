@@ -297,16 +297,16 @@ sair.addEventListener('click', () => {
 
 
 // Evento para reloads na pagina
-// window.addEventListener('beforeunload', function (event) {
-//   event.preventDefault()
-//   pegaUsuarioAtivo()
-//   window.location.href = loginPage;
-//   history.pushState(null, null, loginPage);
-// });
+window.addEventListener('beforeunload', function (event) {
+  event.preventDefault()
+  pegaUsuarioAtivo()
+  window.location.href = loginPage;
+  history.pushState(null, null, loginPage);
+});
 
-// history.pushState(null, null, loginPage);
-// window.addEventListener('popstate', function () {
-//   history.pushState(null, null, loginPage);
-// });
+history.pushState(null, null, loginPage);
+window.addEventListener('popstate', function () {
+  history.pushState(null, null, loginPage);
+});
 
 
