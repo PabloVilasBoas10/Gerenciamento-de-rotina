@@ -13,8 +13,14 @@ for (let i = 0; i < localStorage.length; i++) {
   let informationsKeyJson = JSON.parse(informationsKey)
   const tarefas = informationsKeyJson.tarefas
 
+
   // Mapeia e retorna as tarefas
-  const nomeTarefas = tarefas.map((tarefa) => tarefa.nomeProjeto);
+  if (informationsKeyJson.situacao === true) {
+    const nomeTarefas = tarefas.map((tarefa) => tarefa.nomeProjeto);
+    for (let i = 0; i < nomeTarefas.length; i++) {
+      criaTarefa(nomeTarefas[i])
+    }
+  }
 }
 
 
@@ -185,7 +191,31 @@ document.addEventListener('click', (e) => {
   if (el.classList.contains('apagar-tarefa')) {
     const promptApagar = confirm("Tem certeza que deseja apagar essa tarefa?")
     if (promptApagar) {
-      el.parentElement.parentElement.remove()
+
+      const tarefa = document.querySelectorAll('.container > .lista > div ')
+
+
+      // Percorre todos os itens do localStorage
+      for (let i = 0; i < localStorage.length; i++) {
+        const userKey = localStorage.key(i)
+        const informationsKey = localStorage.getItem(userKey)
+        let informationsKeyJson = JSON.parse(informationsKey)
+
+        // Verifica qual usuario está logado
+        if (informationsKeyJson.situacao === true) {
+          // Percorre as tarefas pegando a tarefa e o indice dela
+          tarefa.forEach((item, indice) => {
+            const elemento = el.parentElement.parentElement
+
+            // verifica se o elemento clicado é o mesmo que o item que existe nas tarefas
+            if (elemento == item) {
+              elemento.remove()
+              informationsKeyJson.tarefas.splice(indice, 1)
+              localStorage.setItem(userKey, JSON.stringify(informationsKeyJson));
+            }
+          })
+        }
+      }
     }
 
   }
@@ -194,7 +224,6 @@ document.addEventListener('click', (e) => {
   if (el.classList.contains('checar-tarefa')) {
     el.parentElement.parentElement.classList.toggle('tarefa-concluida')
   }
-
 
   // Evento de editar tarefa
   if (el.classList.contains('editar-tarefa')) {
@@ -207,18 +236,47 @@ document.addEventListener('click', (e) => {
     containerEditarTarefa.classList.add('abrir')
 
     inputEditarTarefa.focus()
-    const li = el.parentElement.parentElement.children[0].children[0]
-    inputEditarTarefa.value = li.innerText // abre o input com o texto da tarefa
 
-    btnEditarTarefa.addEventListener('click', () => {
-      if (!inputEditarTarefa.value || inputEditarTarefa.value.trim() === '') {
-        return
+    const tarefa = document.querySelectorAll('.container > .lista > div ')
+
+    // Percorre todos os itens do localStorage
+    for (let i = 0; i < localStorage.length; i++) {
+      const userKey = localStorage.key(i)
+      const informationsKey = localStorage.getItem(userKey)
+      let informationsKeyJson = JSON.parse(informationsKey)
+
+      // Verifica qual usuario está logado
+      if (informationsKeyJson.situacao === true) {
+        // Percorre as tarefas pegando a tarefa e o indice dela
+        tarefa.forEach((item, indice) => {
+          const elemento = el.parentElement.parentElement
+
+          // verifica se o elemento clicado é o mesmo que o item que existe nas tarefas
+          if (elemento == item) {
+            const li = el.parentElement.parentElement.children[0].children[0]
+            inputEditarTarefa.value = li.innerText // abre o input com o texto da tarefa
+
+            btnEditarTarefa.addEventListener('click', () => {
+              if (!inputEditarTarefa.value || inputEditarTarefa.value.trim() === '') {
+                return
+              }
+              li.innerText = inputEditarTarefa.value
+              informationsKeyJson.tarefas[indice].nomeProjeto = inputEditarTarefa.value
+
+              localStorage.setItem(userKey, JSON.stringify(informationsKeyJson));
+
+              containerEditarTarefa.classList.remove('abrir')
+              inputEditarTarefa.value = ''
+
+            })
+
+
+          }
+        })
       }
-      li.innerText = inputEditarTarefa.value
-      containerEditarTarefa.classList.remove('abrir')
-      inputEditarTarefa.value = ''
+    }
 
-    })
+
 
     // Evento de fechar a janela de editar tarefa
     btnFecharJanela.addEventListener('click', () => {
