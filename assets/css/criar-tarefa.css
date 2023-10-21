@@ -4,16 +4,16 @@
 }
 
 body {
-  background-color: #7d6f43;
+  background: #88abf7;
+}
+
+body > div {
+  margin: auto;
+  max-width: 70%;
 }
 
 header.info_tarefas {
   border-radius: 28px;
-}
-
-header.info_tarefas,
-main.conteiner_tarefas {
-  background: #372a047a;
 }
 
 main.conteiner_tarefas {
@@ -29,7 +29,7 @@ main.conteiner_tarefas {
 }
 
 .h1-nome {
-  color: #ffffff;
+  /* color: #ffffff; */
   margin: 0;
 }
 
@@ -44,13 +44,13 @@ li {
   border-radius: 9px;
   font-size: 1.3rem;
   padding: 10px;
-  border: 1px solid #000000;
+  border: 2px solid #000000;
 }
 
 .btn-criar {
   width: 50px;
   height: 50px;
-  background: rgb(240, 192, 36);
+  /* background: #bbffaa; */
   /* padding: 20px 20px 20px 20px; */
   text-align: center;
   border-radius: 11px;
@@ -60,7 +60,7 @@ li {
 }
 
 .btn-criar:hover {
-  background-color: #f5d878;
+  background-color: #bed3ff;
   box-shadow: 2px 2px 1px 1px #000000;
 }
 
@@ -69,7 +69,7 @@ li {
   justify-content: space-between;
   align-items: center;
   list-style: none;
-  background: #f0c024;
+  background: #fff;
   padding: 10px;
   margin-top: 20px;
   border: 2px solid #000000;
@@ -87,21 +87,20 @@ li {
 .checar-tarefa,
 .apagar-tarefa,
 .editar-tarefa {
-  height: 38px;
-  width: 38px;
+  height: 30px;
+  width: 30px;
   border-radius: 100%;
   transition: 0.2s;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgb(240, 192, 36);
+  background: #88abf7;
   border: 0;
 }
 
-.apagar-tarefa:hover,
-.editar-tarefa:hover {
-  background-color: #f5d878;
+.apagar-tarefa {
+  background-color: rgb(230, 113, 113);
 }
 
 .tarefa-concluida li {
@@ -112,14 +111,15 @@ li {
 }
 
 .div-editar-tarefa {
-  background-image: linear-gradient(180deg, #f5d878, #f0c024);
+  background: #88abf7;
   position: fixed;
-  width: 100%;
-  height: 100%;
+  width: 50%;
+  height: 50%;
   z-index: 999999;
-  top: 0px;
-  left: 0px;
+  top: 25%;
+  left: 25%;
   text-align: center;
+  border: 3px solid #000000;
   /* backdrop-filter: blur(20px); */
   border-radius: 4px;
   display: none;
@@ -131,7 +131,7 @@ li {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  box-shadow: 2px 2px 1px 1px #000000;
+  /* box-shadow: 2px 2px 1px 1px #000000; */
 }
 
 .div-editar-tarefa input {
@@ -139,14 +139,15 @@ li {
   border-radius: 9px;
   font-size: 1.3rem;
   padding: 10px;
-  border: 1px solid #f0c024;
+  border: 1px solid #000000;
 }
 
 .div-editar-tarefa .btn-confirmar-edit {
   display: block;
   margin: 20px auto;
-  height: 40px;
-  border-radius: 9px;
+  /* height: 40px; */
+  padding: 10px 30px;
+  border-radius: 3px;
   cursor: pointer;
   background: #fff;
   border: 0;
@@ -154,7 +155,8 @@ li {
 }
 
 .div-editar-tarefa .btn-confirmar-edit:hover {
-  background-color: #f5d878;
+  /* background-color: #bed3ff; */
+  box-shadow: 2px 2px 1px 1px #000000;
 }
 
 .div-editar-tarefa .fechar-janela {
@@ -199,16 +201,27 @@ input:focus {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgb(240, 192, 36);
+  background: #88abf7;
 }
 
-.info-usuario button:hover {
+/* .info-usuario button:hover {
   box-shadow: 2px 2px 1px 1px #000000;
-}
+} */
 
 /* Estilos Mobile */
 
+@media (max-width: 715px) {
+  body > div {
+    /* margin: auto; */
+    max-width: 85%;
+  }
+}
+
 @media (max-width: 500px) {
+  body > div {
+    /* margin: auto; */
+    max-width: 100%;
+  }
   .div-editar-tarefa input {
     width: 70%;
     height: 30px;

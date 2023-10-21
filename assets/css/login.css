@@ -5,7 +5,7 @@
 }
 
 .tela-login {
-  background-color: #f5d878;
+  background-color: #ffff;
   font-family: monospace;
   font-size: 1.3rem;
 }
@@ -27,12 +27,12 @@ main.conteiner_login {
 .form-input {
   display: block;
   margin: auto;
-  background: rgb(240, 192, 36);
+  background: #88abf7;
   border-radius: 28px;
   padding: 40px 30px;
   width: 100%;
   max-width: 450px;
-  border: 1px solid #7d600df2;
+  border: 2px solid #000000;
   margin-bottom: 10px;
 }
 
@@ -80,7 +80,7 @@ label {
 
 .btn-logar:hover,
 .btn-criar-conta:hover {
-  background: #dfceb6;
+  background: #b5ccfd;
   box-shadow: 2px 2px 1px 1px #000000;
 }
 
