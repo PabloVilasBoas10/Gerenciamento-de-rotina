@@ -27,21 +27,23 @@ for (let i = 0; i < localStorage.length; i++) {
 
     for (let i = 0; i < nomeTarefas.length; i++) {
       criaTarefa(nomeTarefas[i])
+
       const tarefa = document.querySelectorAll('.container > div > .lista > div')
+      const checkboxes = document.querySelectorAll('.checar-tarefa');
+
 
       if (tarefas[i].concluido === true) {
-        // console.log(tarefa)
 
         tarefa.forEach(item => {
           item.classList.add('tarefa-concluida')
           concluida.appendChild(item)
 
-          const checkboxes = document.querySelectorAll('.input-checar');
+          if (item.classList.contains('tarefa-concluida')) {
+            checkboxes.forEach(function (checkbox) {
+              checkbox.checked = true;
+            });
 
-          // Percorra a lista de checkboxes e marque cada um deles
-          checkboxes.forEach(function (checkbox) {
-            checkbox.checked = true;
-          });
+          }
         })
       }
 
@@ -251,7 +253,6 @@ document.addEventListener('click', (e) => {
 
     el.parentElement.parentElement.classList.toggle('tarefa-concluida')
 
-    console.log(el.parentElement.parentElement)
     const concluida = document.querySelector('.concluidas .lista')
 
     for (let i = 0; i < localStorage.length; i++) {
@@ -264,6 +265,7 @@ document.addEventListener('click', (e) => {
       if (informationsKeyJson.situacao === true) {
 
         const tarefa = document.querySelectorAll('.container > div > .lista > div ')
+
         // Percorre as tarefas pegando a tarefa e o indice dela
         tarefa.forEach((item, indice) => {
           const elemento = el.parentElement.parentElement
@@ -271,6 +273,7 @@ document.addEventListener('click', (e) => {
           // verifica se o elemento clicado é o mesmo que o item que existe nas tarefas
           if (elemento == item) {
             if (elemento.classList.contains('tarefa-concluida')) {
+
               informationsKeyJson.tarefas[indice].concluido = true
               concluida.appendChild(elemento)
             } else {
