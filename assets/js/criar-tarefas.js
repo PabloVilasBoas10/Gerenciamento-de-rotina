@@ -1,6 +1,6 @@
 const inputTarefa = document.querySelector('.input-tarefa')
 const btnTarefa = document.querySelector('.btn-criar')
-const ul = document.querySelector('.lista')
+const ul = document.querySelector('.pendentes .lista')
 const sair = document.querySelector('.sair')
 const loginPage = '../../index.html'
 const h1 = document.querySelector('.h1-nome > span')
@@ -192,7 +192,9 @@ document.addEventListener('click', (e) => {
     const promptApagar = confirm("Tem certeza que deseja apagar essa tarefa?")
     if (promptApagar) {
 
-      const tarefa = document.querySelectorAll('.container > .lista > div ')
+      // const tarefa = document.querySelectorAll('.container > .lista > div ')
+
+      const tarefa = document.querySelectorAll('.container > div > .lista > div ')
 
 
       // Percorre todos os itens do localStorage
@@ -223,6 +225,16 @@ document.addEventListener('click', (e) => {
   // Evento de checar tarefa
   if (el.classList.contains('checar-tarefa')) {
     el.parentElement.parentElement.classList.toggle('tarefa-concluida')
+    const elemento = el.parentElement.parentElement
+    const concluida = document.querySelector('.concluidas .lista')
+
+    if (el.parentElement.parentElement.classList.contains('tarefa-concluida')) {
+      concluida.appendChild(elemento)
+    } else {
+      concluida.removeChild(elemento)
+      ul.appendChild(elemento)
+    }
+
   }
 
   // Evento de editar tarefa
@@ -237,7 +249,7 @@ document.addEventListener('click', (e) => {
 
     inputEditarTarefa.focus()
 
-    const tarefa = document.querySelectorAll('.container > .lista > div ')
+    const tarefa = document.querySelectorAll('.container > div > .lista > div ')
 
     // Percorre todos os itens do localStorage
     for (let i = 0; i < localStorage.length; i++) {
