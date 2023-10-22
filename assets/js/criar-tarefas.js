@@ -4,6 +4,8 @@ const ul = document.querySelector('.pendentes .lista')
 const sair = document.querySelector('.sair')
 const loginPage = '../../index.html'
 const h1 = document.querySelector('.h1-nome > span')
+const pendentes = document.querySelector('.pendentes .lista')
+const concluida = document.querySelector('.concluidas .lista')
 
 
 // Faz um for pegando todas as tarefas do Usuário
@@ -16,10 +18,36 @@ for (let i = 0; i < localStorage.length; i++) {
 
   // Mapeia e retorna as tarefas
   if (informationsKeyJson.situacao === true) {
+
+
+
     const nomeTarefas = tarefas.map((tarefa) => tarefa.nomeProjeto);
+    const tarefaConcluida = tarefas.map((tarefa) => tarefa.concluido);
+
+
     for (let i = 0; i < nomeTarefas.length; i++) {
       criaTarefa(nomeTarefas[i])
+      const tarefa = document.querySelectorAll('.container > div > .lista > div')
+
+      if (tarefas[i].concluido === true) {
+        // console.log(tarefa)
+
+        tarefa.forEach(item => {
+          item.classList.add('tarefa-concluida')
+          concluida.appendChild(item)
+
+          const checkboxes = document.querySelectorAll('.input-checar');
+
+          // Percorra a lista de checkboxes e marque cada um deles
+          checkboxes.forEach(function (checkbox) {
+            checkbox.checked = true;
+          });
+        })
+      }
+
     }
+
+
   }
 }
 
@@ -46,7 +74,7 @@ function salvaTarefasUsuario(txt) {
   for (let i = 0; i < localStorage.length; i++) {
     const tarefa = {
       nomeProjeto: txt,
-      // descricaoProjeto: "1"
+      concluido: false
     }
     const userKey = localStorage.key(i)
     const informationsKey = localStorage.getItem(userKey)
@@ -172,8 +200,6 @@ document.addEventListener('keypress', (e) => {
   }
 
   if (e.keyCode === 13) {
-
-
     salvaTarefasUsuario(inputTarefa.value)
     criaTarefa(inputTarefa.value)
     limpaInput()
@@ -190,12 +216,9 @@ document.addEventListener('click', (e) => {
   // Evento de excluir tarefa
   if (el.classList.contains('apagar-tarefa')) {
     const promptApagar = confirm("Tem certeza que deseja apagar essa tarefa?")
+
     if (promptApagar) {
-
-      // const tarefa = document.querySelectorAll('.container > .lista > div ')
-
       const tarefa = document.querySelectorAll('.container > div > .lista > div ')
-
 
       // Percorre todos os itens do localStorage
       for (let i = 0; i < localStorage.length; i++) {
@@ -205,6 +228,7 @@ document.addEventListener('click', (e) => {
 
         // Verifica qual usuario está logado
         if (informationsKeyJson.situacao === true) {
+
           // Percorre as tarefas pegando a tarefa e o indice dela
           tarefa.forEach((item, indice) => {
             const elemento = el.parentElement.parentElement
@@ -224,21 +248,49 @@ document.addEventListener('click', (e) => {
 
   // Evento de checar tarefa
   if (el.classList.contains('checar-tarefa')) {
+
     el.parentElement.parentElement.classList.toggle('tarefa-concluida')
-    const elemento = el.parentElement.parentElement
+
+    console.log(el.parentElement.parentElement)
     const concluida = document.querySelector('.concluidas .lista')
 
-    if (el.parentElement.parentElement.classList.contains('tarefa-concluida')) {
-      concluida.appendChild(elemento)
-    } else {
-      concluida.removeChild(elemento)
-      ul.appendChild(elemento)
+    for (let i = 0; i < localStorage.length; i++) {
+
+      const userKey = localStorage.key(i)
+      const informationsKey = localStorage.getItem(userKey)
+      let informationsKeyJson = JSON.parse(informationsKey)
+
+      // Verifica qual usuario está logado
+      if (informationsKeyJson.situacao === true) {
+
+        const tarefa = document.querySelectorAll('.container > div > .lista > div ')
+        // Percorre as tarefas pegando a tarefa e o indice dela
+        tarefa.forEach((item, indice) => {
+          const elemento = el.parentElement.parentElement
+
+          // verifica se o elemento clicado é o mesmo que o item que existe nas tarefas
+          if (elemento == item) {
+            if (elemento.classList.contains('tarefa-concluida')) {
+              informationsKeyJson.tarefas[indice].concluido = true
+              concluida.appendChild(elemento)
+            } else {
+              informationsKeyJson.tarefas[indice].concluido = false
+              concluida.removeChild(elemento)
+              ul.appendChild(elemento)
+            }
+            localStorage.setItem(userKey, JSON.stringify(informationsKeyJson));
+          }
+        })
+      }
     }
+
+
 
   }
 
   // Evento de editar tarefa
   if (el.classList.contains('editar-tarefa')) {
+
     const divContainerEdit = criaContainerEdit()
     const containerEditarTarefa = document.querySelector('.div-editar-tarefa')
     containerEditarTarefa.innerHTML = divContainerEdit
@@ -253,25 +305,30 @@ document.addEventListener('click', (e) => {
 
     // Percorre todos os itens do localStorage
     for (let i = 0; i < localStorage.length; i++) {
+
       const userKey = localStorage.key(i)
       const informationsKey = localStorage.getItem(userKey)
       let informationsKeyJson = JSON.parse(informationsKey)
 
       // Verifica qual usuario está logado
       if (informationsKeyJson.situacao === true) {
+
         // Percorre as tarefas pegando a tarefa e o indice dela
         tarefa.forEach((item, indice) => {
           const elemento = el.parentElement.parentElement
 
           // verifica se o elemento clicado é o mesmo que o item que existe nas tarefas
           if (elemento == item) {
+
             const li = el.parentElement.parentElement.children[0].children[0]
             inputEditarTarefa.value = li.innerText // abre o input com o texto da tarefa
 
             btnEditarTarefa.addEventListener('click', () => {
+
               if (!inputEditarTarefa.value || inputEditarTarefa.value.trim() === '') {
                 return
               }
+
               li.innerText = inputEditarTarefa.value
               informationsKeyJson.tarefas[indice].nomeProjeto = inputEditarTarefa.value
 
