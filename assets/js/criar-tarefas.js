@@ -1,11 +1,9 @@
 const inputTarefa = document.querySelector('.input-tarefa')
 const btnTarefa = document.querySelector('.btn-criar')
-const ul = document.querySelector('.pendentes .lista')
+const ul = document.querySelector('.lista')
 const sair = document.querySelector('.sair')
 const loginPage = '../../index.html'
 const h1 = document.querySelector('.h1-nome > span')
-const pendentes = document.querySelector('.pendentes .lista')
-const concluida = document.querySelector('.concluidas .lista')
 
 
 // Faz um for pegando todas as tarefas do Usuário
@@ -28,24 +26,26 @@ for (let i = 0; i < localStorage.length; i++) {
     for (let i = 0; i < nomeTarefas.length; i++) {
       criaTarefa(nomeTarefas[i])
 
-      const tarefa = document.querySelectorAll('.container > div > .lista > div')
-      const checkboxes = document.querySelectorAll('.checar-tarefa');
+      // const tarefa = document.querySelectorAll('.container > div > .lista > div')
+      // const checkboxes = document.querySelectorAll('.checar-tarefa');
 
 
-      if (tarefas[i].concluido === true) {
+      // if (tarefas[i].concluido === true) {
 
-        tarefa.forEach(item => {
-          item.classList.add('tarefa-concluida')
-          concluida.appendChild(item)
+      //   tarefa.forEach(item => {
+      //     item.classList.add('tarefa-concluida')
+      //     ul.removeChild(item)
+      //     // concluida.appendChild(item)
+      //     ul.appendChild(item)
 
-          if (item.classList.contains('tarefa-concluida')) {
-            checkboxes.forEach(function (checkbox) {
-              checkbox.checked = true;
-            });
+      //     if (item.classList.contains('tarefa-concluida')) {
+      //       checkboxes.forEach(function (checkbox) {
+      //         checkbox.checked = true;
+      //       });
 
-          }
-        })
-      }
+      //     }
+      //   })
+      // }
 
     }
 
@@ -250,45 +250,8 @@ document.addEventListener('click', (e) => {
 
   // Evento de checar tarefa
   if (el.classList.contains('checar-tarefa')) {
-
-    el.parentElement.parentElement.classList.toggle('tarefa-concluida')
-
-    const concluida = document.querySelector('.concluidas .lista')
-
-    for (let i = 0; i < localStorage.length; i++) {
-
-      const userKey = localStorage.key(i)
-      const informationsKey = localStorage.getItem(userKey)
-      let informationsKeyJson = JSON.parse(informationsKey)
-
-      // Verifica qual usuario está logado
-      if (informationsKeyJson.situacao === true) {
-
-        const tarefa = document.querySelectorAll('.container > div > .lista > div ')
-
-        // Percorre as tarefas pegando a tarefa e o indice dela
-        tarefa.forEach((item, indice) => {
-          const elemento = el.parentElement.parentElement
-
-          // verifica se o elemento clicado é o mesmo que o item que existe nas tarefas
-          if (elemento == item) {
-            if (elemento.classList.contains('tarefa-concluida')) {
-
-              informationsKeyJson.tarefas[indice].concluido = true
-              concluida.appendChild(elemento)
-            } else {
-              informationsKeyJson.tarefas[indice].concluido = false
-              concluida.removeChild(elemento)
-              ul.appendChild(elemento)
-            }
-            localStorage.setItem(userKey, JSON.stringify(informationsKeyJson));
-          }
-        })
-      }
-    }
-
-
-
+    const elemento = el.parentElement.parentElement
+    elemento.classList.toggle('tarefa-concluida')
   }
 
   // Evento de editar tarefa
